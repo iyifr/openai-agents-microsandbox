@@ -7,12 +7,14 @@
     "demo:law-firm": "pnpm --filter @mst/example-law-firm start",
     "demo:law-firm:cli": "pnpm --filter @mst/example-law-firm cli",
     "verify": "bun run scripts/verify.mts",
-    "e2e:smoke": "bun run scripts/e2e-smoke.mts",
+    "typecheck:readme": "tsc --noEmit --strict --target es2022 --module nodenext --moduleResolution nodenext --skipLibCheck scripts/readme-example.ts",
+    "e2e:readme": "bun run scripts/readme-e2e.mts && bun run scripts/readme-e2e-published.mts",
+    "e2e:smoke": "bun run scripts/readme-e2e.mts",
     "test:law-firm-cli": "bun run scripts/test-law-firm-cli.mts"
   },
   "devDependencies": {
     "@openai/agents": "^0.12.0",
-    "microsandbox": "^0.7.6",
+    "microsandbox": "^0.7.7",
     "openai": "^6.45.0",
     "typescript": "^5.8.0",
     "undici": "^7.0.0"

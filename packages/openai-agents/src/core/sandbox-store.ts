@@ -1,11 +1,11 @@
 import { AsyncLocalStorage } from 'node:async_hooks'
 import type { Sandbox } from 'microsandbox'
-import type { SandboxRunOptions } from './types.js'
+import type { SandboxConfig } from './types.js'
 
 /** Hands out the run's sandbox, creating it on first use. */
 export interface SandboxProvider {
-  /** `requested` is the calling sandboxRun()'s options; other tools pass nothing. */
-  get(requested?: SandboxRunOptions): Promise<Sandbox>
+  /** `requested` is the calling sandboxConfig()'s options; other tools pass nothing. */
+  get(requested?: SandboxConfig): Promise<Sandbox>
 }
 
 /**
@@ -21,7 +21,7 @@ export class SandboxSetupError extends Error {
 
 export const sandboxStore = new AsyncLocalStorage<SandboxProvider>()
 
-export async function getActiveSandbox(requested?: SandboxRunOptions): Promise<Sandbox> {
+export async function getActiveSandbox(requested?: SandboxConfig): Promise<Sandbox> {
   const provider = sandboxStore.getStore()
   if (!provider) {
     throw new SandboxSetupError(

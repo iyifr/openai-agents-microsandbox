@@ -1,10 +1,10 @@
 import { z } from 'zod'
 import { mstTool } from './mst-tool.js'
 import { getActiveSandbox, MST_SANDBOX_CONFIG } from '../core/index.js'
-import type { SandboxRunOptions } from '../core/index.js'
+import type { SandboxConfig } from '../core/index.js'
 import { DEFAULT_MAX_OUTPUT_BYTES, execToYaml } from './exec.js'
 
-export function sandboxRun(options: SandboxRunOptions) {
+export function sandboxConfig(options: SandboxConfig) {
   const timeoutMs = (options.timeoutSecs ?? 30) * 1000
   const maxOutputBytes = options.maxOutputBytes ?? DEFAULT_MAX_OUTPUT_BYTES
 

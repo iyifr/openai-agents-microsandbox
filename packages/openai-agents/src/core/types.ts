@@ -21,7 +21,7 @@ export type SandboxSecret = {
   host: string    // only exposed to connections to this host; auto-added to network allowlist
 }
 
-export type SandboxRunOptions = {
+export type SandboxConfig = {
   image: string
   interpreter: string
   cpus?: number
@@ -38,9 +38,13 @@ export type SandboxRunOptions = {
   configure?: (b: SandboxBuilder) => SandboxBuilder
 }
 
+export type FileChangeKind = 'created' | 'modified'
+
 export type FileOutPayload = {
   /** Path relative to /workspace, e.g. 'reports/q1/summary.md'. */
   file_name: string
+  /** Whether the file was added this run or changed since the run started. */
+  change: FileChangeKind
   version: number
   /** Size in bytes. */
   size: number

@@ -16,27 +16,40 @@ npm i openai-agents-msb @openai/agents microsandbox zod
 ```
 
 > **Requirements**: Node.js 22+ on macOS (Apple Silicon), Linux (KVM) or Windows (WHP).
+>
+> If you also use the Python SDK, keep **`microsandbox` on the same version** in both projects (e.g. `0.7.7`).
+> A mismatch often shows up as `database schema is newer than this msb binary`. Run `npm ls microsandbox`
+> after upgrades.
 
 ```ts
 import fs from 'node:fs'
 import { Agent } from '@openai/agents'
-import { run, sandboxRun, sandboxExec, sandboxReadFile, sandboxWriteFile } from 'openai-agents-msb'
+import { run, sandboxConfig, sandboxExec, sandboxReadFile, sandboxWriteFile } from 'openai-agents-msb'
 import { WorkspaceContext } from 'openai-agents-msb/core'
 
 const agent = new Agent({
-  name: 'doc-agent',
-  instructions: 'Files are in /workspace. Use the sandbox tools.',
+  name: 'reporter',
+  instructions: 'Write report.html. A table of the rows, then the totals.',
   tools: [
-    sandboxRun({ image: 'python:3.12-slim', interpreter: 'python3' }),
+    sandboxConfig({ image: 'python:3.12-slim', interpreter: 'python3' }),
     sandboxExec(),
     sandboxReadFile(),
     sandboxWriteFile(),
   ],
 })
 
-await run(agent, 'Summarize data.xlsx as a PDF', WorkspaceContext({
-  inputFiles: [{ name: 'data.xlsx', data: fs.readFileSync('data.xlsx') }],
-  onFileOutput: (file) => fs.copyFileSync(file.path, `out/${file.file_name}`),
+await run(agent, 'March sales report', WorkspaceContext({
+  inputFiles: [{ name: 'sales.csv', data: fs.readFileSync('sales.csv') }],
+  onFileOutput: async (file) => {
+    if (file.file_name !== 'report.html' || !file.buffer) return
+    // your client, e.g. @aws-sdk/client-s3
+    await s3.send(new PutObjectCommand({
+      Bucket: 'reports',
+      Key: 'march/report.html',
+      Body: file.buffer,
+      ContentType: 'text/html',
+    }))
+  },
 }))
 ```
 
@@ -44,17 +57,17 @@ await run(agent, 'Summarize data.xlsx as a PDF', WorkspaceContext({
 
 | Tool | Does |
 |---|---|
-| `sandboxRun(options)` | Runs a script; configures the sandbox |
+| `sandboxConfig(options)` | Runs a script; configures the sandbox |
 | `sandboxExec({ timeoutSecs?, maxOutputBytes? })` | Runs a shell command (default timeout 600s) |
 | `sandboxReadFile()` | Reads a text file |
 | `sandboxWriteFile()` | Writes a text file |
 | `sandboxListFiles()` | Lists a directory |
 
 <details>
-<summary><em>All <code>sandboxRun</code> options →</em></summary>
+<summary><em>All <code>sandboxConfig</code> options →</em></summary>
 
 ```ts
-sandboxRun({
+sandboxConfig({
   image: 'python:3.12-slim',
   interpreter: 'python3',
   network: 'public',           // see Network
@@ -69,13 +82,13 @@ sandboxRun({
 })
 ```
 
-Handoffs and `agent.asTool()` agents share the run's sandbox. Tools with no `sandboxRun()` anywhere use `python:3.12-slim`.
+Handoffs and `agent.asTool()` agents share the run's sandbox. Tools with no `sandboxConfig()` anywhere use `python:3.12-slim`.
 
 </details>
 
 ## Files
 
-`onFileOutput` fires for each new or changed file after the run. `file_name` is relative to `/workspace`;
+`onFileOutput` fires for each new or changed file after the run (`change`: `'created' | 'modified'`). `file_name` is relative to `/workspace`;
 `path` is valid during the callback; `buffer` is omitted for files over 2 GiB.
 
 ```ts
@@ -97,18 +110,19 @@ await result.completed   // outputs delivered, sandbox stopped
 ## Network
 
 ```ts
-sandboxRun({ network: 'none' })                                // default
-sandboxRun({ network: 'public' })                              // internet, not LAN or cloud metadata
-sandboxRun({ network: { allow: ['api.example.com', '*.github.com', '10.0.0.0/8'] } })
+sandboxConfig({ network: 'none' })                                // default
+sandboxConfig({ network: 'public' })                              // internet, not LAN or cloud metadata
+sandboxConfig({ network: { allow: ['api.example.com', '*.github.com', '10.0.0.0/8'] } })
 ```
 
 `secrets` hosts and PyPI (for `packages`) are allowed automatically. A host that echoes request headers back can leak a secret's real value, so only scope secrets to APIs you trust.
 
 ## Sessions
 
-Set `persist: true` on `sandboxRun()` and pass a `sandboxName` to keep one VM per conversation.
+Set `persist: true` on `sandboxConfig()` and pass a `sandboxName` to keep one VM per conversation.
 
 ```ts
+// sandboxConfig({ ..., persist: true }) on the agent
 await run(agent, 'Draft it', WorkspaceContext({ sandboxName: 'case-42', inputFiles }))
 await run(agent, 'Now shorten it', WorkspaceContext({ sandboxName: 'case-42', skipInputSeed: true }))
 
