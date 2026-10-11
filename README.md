@@ -3,8 +3,6 @@
 **Give your OpenAI Agents an isolated [microsandbox](https://github.com/superradcompany/microsandbox) VM to run code and edit files in [TypeScript](packages/openai-agents) or [Python](python).**
 
 - **Drop-in** `run()` **method**: Same arguments as the Agents SDK's own runner. Swap the call, keep the agent definition from the SDK.
-- **Two SDKs, one behaviour**: TypeScript and Python, same tools, same guarantees.
-- **Files in, files out**: Seed `/workspace`, get every new or changed file back after the run.
 - **Lazy VMs**: The sandbox boots on the first tool call. Chat-only turns cost nothing.
 - **Locked-down network**: No network by default; allow the public internet or specific hosts.
 - **Secrets that stay out**: Code in the VM sees a placeholder, never the real key.
