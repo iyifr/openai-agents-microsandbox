@@ -42,12 +42,12 @@ if (!microsandboxSupported) {
   )
 } else {
   const { Agent } = await import('@openai/agents')
-  const { run, sandboxRun } = await import('../packages/openai-agents/dist/index.js')
+  const { run, sandboxConfig } = await import('../packages/openai-agents/dist/index.js')
 
   const agent = new Agent({
     name: 'test',
     instructions: 'test',
-    tools: [sandboxRun({ image: 'alpine', interpreter: 'sh' })],
+    tools: [sandboxConfig({ image: 'alpine', interpreter: 'sh' })],
   })
 
   try {
@@ -63,8 +63,8 @@ if (!microsandboxSupported) {
     name: 'conflict',
     instructions: 'test',
     tools: [
-      sandboxRun({ image: 'alpine', interpreter: 'sh' }),
-      sandboxRun({ image: 'ubuntu', interpreter: 'bash' }),
+      sandboxConfig({ image: 'alpine', interpreter: 'sh' }),
+      sandboxConfig({ image: 'ubuntu', interpreter: 'bash' }),
     ],
   })
 
@@ -72,7 +72,7 @@ if (!microsandboxSupported) {
     await run(conflictAgent, 'hi', WorkspaceContext({}))
     fail('config conflict', 'no throw')
   } catch (e: unknown) {
-    if (e instanceof Error && e.message.includes('identical SandboxRunOptions'))
+    if (e instanceof Error && e.message.includes('identical SandboxConfig'))
       ok('config conflict detection')
     else fail('config conflict detection', e)
   }

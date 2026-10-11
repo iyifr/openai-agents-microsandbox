@@ -1,7 +1,7 @@
 import { isIP } from 'node:net'
 import { Sandbox } from 'microsandbox'
 import type { NetworkPolicy, SandboxBuilder } from 'microsandbox'
-import type { NetworkConfig, SandboxRunOptions } from './core/index.js'
+import type { NetworkConfig, SandboxConfig } from './core/index.js'
 
 const PYPI_HOSTS = ['pypi.org', 'files.pythonhosted.org']
 
@@ -37,7 +37,7 @@ function denyByDefault(rules: Rule[]): NetworkPolicy {
  * Turns MST's shorthand into a microsandbox NetworkPolicy; null means no network.
  * Validating the result is left to microsandbox.
  */
-function toPolicy(config: SandboxRunOptions): NetworkPolicy | null {
+function toPolicy(config: SandboxConfig): NetworkPolicy | null {
   const network: NetworkConfig | undefined =
     config.network === true ? 'public' : config.network === false ? 'none' : config.network
   if (network === 'none') return null
@@ -54,7 +54,7 @@ function toPolicy(config: SandboxRunOptions): NetworkPolicy | null {
   return hosts.length ? denyByDefault(hosts.map((h) => allowEgress(destination(h)))) : null
 }
 
-export function applyNetwork(builder: SandboxBuilder, config: SandboxRunOptions): SandboxBuilder {
+export function applyNetwork(builder: SandboxBuilder, config: SandboxConfig): SandboxBuilder {
   const policy = toPolicy(config)
   if (!policy) return builder.disableNetwork()
 
@@ -71,7 +71,7 @@ export function applyNetwork(builder: SandboxBuilder, config: SandboxRunOptions)
 }
 
 /** Rejects bad network settings before any VM is created. */
-export function validateNetwork(config: SandboxRunOptions) {
+export function validateNetwork(config: SandboxConfig) {
   if (toPolicy(config) === null && (config.packages?.length || config.secrets?.length)) {
     throw new Error(
       "[mst] network: 'none' is incompatible with `packages` and `secrets` — " +

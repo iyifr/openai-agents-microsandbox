@@ -147,6 +147,7 @@ export async function emitFileOutputs(
 
         await ws.onFileOutput({
           file_name: rel,
+          change: original ? 'modified' : 'created',
           version: 1,
           size,
           path: filePath,

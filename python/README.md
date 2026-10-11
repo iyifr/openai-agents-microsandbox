@@ -16,6 +16,10 @@ pip install openai-agents-msb
 ```
 
 > **Requirements**: Python 3.10+ on macOS (Apple Silicon), Linux (KVM) or Windows (WHP).
+>
+> If you also use the TypeScript SDK, keep **`microsandbox` on the same version** in both environments
+> (see `pip show microsandbox` and `npm ls microsandbox`). Mixed versions can break sandbox listing with
+> `database schema is newer than this msb binary`.
 
 ```python
 import asyncio
@@ -33,8 +37,8 @@ from openai_agents_msb import (
 )
 
 agent = Agent(
-    name="doc-agent",
-    instructions="Files are in /workspace. Use the sandbox tools.",
+    name="reporter",
+    instructions="Write report.html. A table of the rows, then the totals.",
     tools=[
         sandbox_config(image="python:3.12-slim", interpreter="python3"),
         sandbox_exec(),
@@ -44,13 +48,25 @@ agent = Agent(
 )
 
 
+async def on_report(file) -> None:
+    if file.file_name != "report.html" or not file.data:
+        return
+    # your client, e.g. boto3
+    s3.put_object(
+        Bucket="reports",
+        Key="march/report.html",
+        Body=file.data,
+        ContentType="text/html",
+    )
+
+
 async def main() -> None:
     await run(
         agent,
-        "Summarize data.xlsx as a PDF",
+        "March sales report",
         WorkspaceContext(
-            input_files=[InputFile("data.xlsx", Path("data.xlsx").read_bytes())],
-            on_file_output=lambda f: Path("out", f.file_name).write_bytes(f.data or b""),
+            input_files=[InputFile("sales.csv", Path("sales.csv").read_bytes())],
+            on_file_output=on_report,
         ),
     )
 
@@ -142,6 +158,7 @@ headers back can leak a secret's real value, so only scope secrets to APIs you t
 Set `persist=True` on `sandbox_config()` and pass a `sandbox_name` to keep one VM per conversation.
 
 ```python
+# sandbox_config(..., persist=True) on the agent
 await run(agent, "Draft it", WorkspaceContext(sandbox_name="case-42", input_files=files))
 await run(agent, "Now shorten it", WorkspaceContext(sandbox_name="case-42", skip_input_seed=True))
 

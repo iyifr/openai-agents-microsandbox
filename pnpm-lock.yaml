@@ -12,8 +12,8 @@ importers:
         specifier: ^0.12.0
         version: 0.12.0(ws@8.21.0)(zod@4.4.3)
       microsandbox:
-        specifier: ^0.7.6
-        version: 0.7.6
+        specifier: ^0.7.7
+        version: 0.7.7
       openai:
         specifier: ^6.45.0
         version: 6.45.0(ws@8.21.0)(zod@4.4.3)
@@ -55,8 +55,8 @@ importers:
   packages/openai-agents:
     dependencies:
       microsandbox:
-        specifier: '>=0.7.0 <0.8.0'
-        version: 0.7.6
+        specifier: '>=0.7.7 <0.8.0'
+        version: 0.7.7
     devDependencies:
       '@openai/agents':
         specifier: ^0.12.0
@@ -85,8 +85,8 @@ packages:
     peerDependencies:
       hono: ^4
 
-  '@microsandbox/types@0.7.6':
-    resolution: {integrity: sha512-c37qErKf6FuPRGOM9CElrEcmg5kGOWghLnDVxZyQwTYEwXGm+ySA1nw7ShSPaUWXWw+/wvCxagGJrw/TK/+f+g==}
+  '@microsandbox/types@0.7.7':
+    resolution: {integrity: sha512-67/tP2k+tpksQbIIvzbPGtiq3Ai/3242NLTkxTZawelUk+qVvOc3BygAVK+kxoHYJW0fyTtmZ1mYAyJrXLSSEg==}
 
   '@modelcontextprotocol/sdk@1.29.0':
     resolution: {integrity: sha512-zo37mZA9hJWpULgkRpowewez1y6ML5GsXJPY8FI0tBBCd77HEvza4jDqRKOXgHNn867PVGCyTdzqpz0izu5ZjQ==}
@@ -168,34 +168,34 @@ packages:
     peerDependencies:
       web-tree-sitter: 0.25.10
 
-  '@superradcompany/microsandbox-darwin-arm64@0.7.6':
-    resolution: {integrity: sha512-gTboiANChdpsdPzfZ40Co9ls1UIhKGol5reMBApcCNCvp7z1C65vPK3i9QnWp4yFeClQ0k+gQezApiTSRsevGw==}
+  '@superradcompany/microsandbox-darwin-arm64@0.7.7':
+    resolution: {integrity: sha512-vvyMNGytk2R/HpCJXGekNniUuzKbQH+ARZMC4Ne4BxEu9q1gDmx4bfn6NdQ2Gej5oIfQEyiuK7naq3U8/GC2lQ==}
     engines: {node: '>= 22'}
     cpu: [arm64]
     os: [darwin]
 
-  '@superradcompany/microsandbox-linux-arm64-gnu@0.7.6':
-    resolution: {integrity: sha512-089OfW/yHu3wkiMqtNG0jcTWCwjZeNC+x5piXFipQKS2MuYWa/U9tQxGfSQnn6ZU7eA3cKJUjVA8EGIa0RvUYg==}
+  '@superradcompany/microsandbox-linux-arm64-gnu@0.7.7':
+    resolution: {integrity: sha512-/s6icz7ox8jz1vCdr6c3USnX08cDNUZ0SEjFhYVrcmumXrMfjNmfCke7aRBxkmF17uhY/0h1wsmeDZPoUL4wAA==}
     engines: {node: '>= 22'}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@superradcompany/microsandbox-linux-x64-gnu@0.7.6':
-    resolution: {integrity: sha512-1wwZjgki/JuHeo/GI4BVREIrtsSim7Ei8S5xohkz3R6CGyf+xNgoodrKtJXB/NwxmxHDCscc88/qGUbTsljhsw==}
+  '@superradcompany/microsandbox-linux-x64-gnu@0.7.7':
+    resolution: {integrity: sha512-sn19EZNpHgQ/wFv6S0eyNEh/c5+CBl629h8AG5o94ZYY05tbVDmBqI33wrdA7nGKySbx/2Uni+ecKvGVi0jTgg==}
     engines: {node: '>= 22'}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@superradcompany/microsandbox-win32-arm64-msvc@0.7.6':
-    resolution: {integrity: sha512-KAsVOqBDJp8Pg4C7/Tq1xiVA/P7OiETmYA+/w9W/2dDxo+/MgiWV6D63vqisn5J2ug0tcOmGXn9D9qaZMoZywg==}
+  '@superradcompany/microsandbox-win32-arm64-msvc@0.7.7':
+    resolution: {integrity: sha512-Ggzi1SGFeErCjaNdMiel7siFjHHILVNrTHvnNMPH4VMVGTNnYmmz0LRx8Z6fWLEQrmZe9YsW2Bx1oEvD9mbpKQ==}
     engines: {node: '>= 22'}
     cpu: [arm64]
     os: [win32]
 
-  '@superradcompany/microsandbox-win32-x64-msvc@0.7.6':
-    resolution: {integrity: sha512-JkMe0sJZVXwnpBrcrH34InRZSMYY12vAmRwpMNm9DQUkVBA91utfkY1SKL+cI7ux9LZZq7GDVe8IypA8sdAu/Q==}
+  '@superradcompany/microsandbox-win32-x64-msvc@0.7.7':
+    resolution: {integrity: sha512-KCiwNMN1beDzTEMuJ6AK4nJk2DMME3hvv8x4dB12uwpCRoRnIwWajs4rp7/UogZEMV/wO/skhNFJaNzTpt9QWQ==}
     engines: {node: '>= 22'}
     cpu: [x64]
     os: [win32]
@@ -448,8 +448,8 @@ packages:
     resolution: {integrity: sha512-Snk314V5ayFLhp3fkUREub6WtjBfPdCPY1Ln8/8munuLuiYhsABgBVWsozAG+MWMbVEvcdcpbi9R7ww22l9Q3g==}
     engines: {node: '>=18'}
 
-  microsandbox@0.7.6:
-    resolution: {integrity: sha512-66lq0qH5xiFPm4nOb4euqsTd7AuDCGEg+ibdWtBu1nlzGGVEbCYBOjCy8Aihrinnu/kpEtx+d99x1nUMCpb8XQ==}
+  microsandbox@0.7.7:
+    resolution: {integrity: sha512-H2ipvZyDATXlQAem3Yhf5OZ6dUxOVJlgC/QMSEVZOBqB3UN3OOqPcpk3Tg7MqkKnKucuUF5GMsAvmb8d8BADXQ==}
     engines: {node: '>= 22'}
     hasBin: true
 
@@ -692,7 +692,7 @@ snapshots:
       hono: 4.12.27
     optional: true
 
-  '@microsandbox/types@0.7.6': {}
+  '@microsandbox/types@0.7.7': {}
 
   '@modelcontextprotocol/sdk@1.29.0(zod@4.4.3)':
     dependencies:
@@ -824,19 +824,19 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@superradcompany/microsandbox-darwin-arm64@0.7.6':
+  '@superradcompany/microsandbox-darwin-arm64@0.7.7':
     optional: true
 
-  '@superradcompany/microsandbox-linux-arm64-gnu@0.7.6':
+  '@superradcompany/microsandbox-linux-arm64-gnu@0.7.7':
     optional: true
 
-  '@superradcompany/microsandbox-linux-x64-gnu@0.7.6':
+  '@superradcompany/microsandbox-linux-x64-gnu@0.7.7':
     optional: true
 
-  '@superradcompany/microsandbox-win32-arm64-msvc@0.7.6':
+  '@superradcompany/microsandbox-win32-arm64-msvc@0.7.7':
     optional: true
 
-  '@superradcompany/microsandbox-win32-x64-msvc@0.7.6':
+  '@superradcompany/microsandbox-win32-x64-msvc@0.7.7':
     optional: true
 
   '@types/bun@1.4.2':
@@ -1139,15 +1139,15 @@ snapshots:
   merge-descriptors@2.0.0:
     optional: true
 
-  microsandbox@0.7.6:
+  microsandbox@0.7.7:
     dependencies:
-      '@microsandbox/types': 0.7.6
+      '@microsandbox/types': 0.7.7
     optionalDependencies:
-      '@superradcompany/microsandbox-darwin-arm64': 0.7.6
-      '@superradcompany/microsandbox-linux-arm64-gnu': 0.7.6
-      '@superradcompany/microsandbox-linux-x64-gnu': 0.7.6
-      '@superradcompany/microsandbox-win32-arm64-msvc': 0.7.6
-      '@superradcompany/microsandbox-win32-x64-msvc': 0.7.6
+      '@superradcompany/microsandbox-darwin-arm64': 0.7.7
+      '@superradcompany/microsandbox-linux-arm64-gnu': 0.7.7
+      '@superradcompany/microsandbox-linux-x64-gnu': 0.7.7
+      '@superradcompany/microsandbox-win32-arm64-msvc': 0.7.7
+      '@superradcompany/microsandbox-win32-x64-msvc': 0.7.7
 
   mime-db@1.54.0:
     optional: true
